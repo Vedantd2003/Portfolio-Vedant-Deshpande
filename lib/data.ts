@@ -21,6 +21,24 @@ export const roles = [
 
 export const projects = [
   {
+    id: 7,
+    title: "KagazBol",
+    subtitle: "Talk to any Indian Document",
+    description:
+      "Photograph any Indian document — electricity bill, prescription, bank notice, government form — and get an instant structured summary card, a 2-line spoken summary, and grounded voice Q&A. Powered by Sarvam AI's OCR, summarization, and codemix speech models, with full support for English, Hindi, and Marathi.",
+    tags: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS 4", "Sarvam AI"],
+    github: "https://github.com/Vedantd2003/kagazbol",
+    demo: "https://kagazbol.onrender.com",
+    color: "from-amber-600 to-orange-600",
+    glow: "rgba(245,158,11,0.4)",
+    icon: "📄",
+    highlights: [
+      "OCR for Devanagari + mixed scripts",
+      "Voice Q&A grounded in the document",
+      "English, Hindi & Marathi support",
+    ],
+  },
+  {
     id: 6,
     title: "NeuralVault",
     subtitle: "Self-Improving RAG Platform",
