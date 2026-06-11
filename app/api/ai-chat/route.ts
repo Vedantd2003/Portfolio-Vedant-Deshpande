@@ -46,7 +46,7 @@ export async function POST(request: Request) {
         "X-Title": "Vedant Deshpande Portfolio",
       },
       body: JSON.stringify({
-        model: "anthropic/claude-haiku-4-5",
+        model: "anthropic/claude-haiku-4.5",
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           ...messages.slice(-8),
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
           { status: 429 }
         );
       }
-      throw new Error(`OpenRouter error: ${response.status}`);
+      throw new Error(`OpenRouter error: ${response.status} ${JSON.stringify(errorData)}`);
     }
 
     const data = await response.json();
