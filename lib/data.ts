@@ -21,6 +21,24 @@ export const roles = [
 
 export const projects = [
   {
+    id: 6,
+    title: "NeuralVault",
+    subtitle: "Self-Improving RAG Platform",
+    description:
+      "Full-stack RAG platform where users upload documents (PDF, DOCX, HTML, Markdown) into a personal knowledge base and ask questions with real-time streamed answers. The system self-evaluates every response (RAGAS-style faithfulness, relevance, context precision) and runs nightly self-improvement jobs to flag low-quality answers for review.",
+    tags: ["Next.js", "Express", "MongoDB", "Redis", "OpenRouter", "Bull"],
+    github: "https://github.com/Vedantd2003/neural-vault",
+    demo: "https://neural-vault-frontend.onrender.com",
+    color: "from-blue-600 to-violet-600",
+    glow: "rgba(59,130,246,0.4)",
+    icon: "🧠",
+    highlights: [
+      "Self-evaluating RAG pipeline",
+      "Real-time streamed answers via SSE",
+      "Nightly self-improvement jobs",
+    ],
+  },
+  {
     id: 1,
     title: "Nebula AI Studio",
     subtitle: "Enterprise AI Content SaaS",
