@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { MotionConfig } from "framer-motion";
 import "./globals.css";
 
 const inter = Inter({
@@ -25,6 +26,8 @@ export const metadata: Metadata = {
     "Vedant Deshpande",
   ],
   authors: [{ name: "Vedant Deshpande", url: "https://github.com/Vedantd2003" }],
+  // TODO: add an og:image (1200x630) once a real screenshot/banner asset is
+  // provided — no image is set yet, so social shares render without a preview.
   openGraph: {
     title: "Vedant Deshpande — Full-Stack AI Developer",
     description:
@@ -46,7 +49,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${inter.variable} antialiased bg-[#030712] text-slate-100`}>
-        {children}
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
       </body>
     </html>
   );

@@ -115,6 +115,42 @@ section {
   pointer-events: none;
 }
 
+/* ─── Liquid glass: brand-gradient masked border edge on top of .glass ───
+   The ::before renders a gradient ring by masking a padded background so only
+   the border band shows (mask-composite: exclude cuts out the content-box). */
+.liquid-glass {
+  position: relative;
+  overflow: hidden;
+  background-blend-mode: luminosity;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08);
+}
+
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(
+    180deg,
+    rgba(139, 92, 246, 0.55) 0%,
+    rgba(59, 130, 246, 0.22) 20%,
+    transparent 40%,
+    transparent 60%,
+    rgba(34, 211, 238, 0.22) 80%,
+    rgba(139, 92, 246, 0.55) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
 /* ─── Button styles ─── */
 .btn-primary {
   @apply relative inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white
@@ -133,4 +169,20 @@ section {
 ::selection {
   background: rgba(139, 92, 246, 0.3);
   color: #f1f5f9;
+}
+
+/* ─── Reduced motion: kill CSS-driven animation/scroll (Framer Motion is
+   handled separately via MotionConfig reducedMotion="user" in layout.tsx) ─── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
