@@ -1,9 +1,38 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import {
+  motion,
+  useInView,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+} from "framer-motion";
 import { projects } from "@/lib/data";
 import { Github, ExternalLink } from "lucide-react";
+
+function ScrollScale({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  // Gate behind a mount flag: prefersReducedMotion is only knowable
+  // client-side, so the very first render must match server output (motion
+  // enabled) on both sides, then update after mount.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const reduced = mounted && !!prefersReducedMotion;
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "start 0.6"],
+  });
+  const scale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [0.94, 1]);
+
+  return (
+    <motion.div ref={ref} style={{ scale }}>
+      {children}
+    </motion.div>
+  );
+}
 
 function ProjectCard({
   project,
@@ -152,7 +181,9 @@ export default function Projects() {
       {/* Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map((project, i) => (
-          <ProjectCard key={project.id} project={project} index={i} />
+          <ScrollScale key={project.id}>
+            <ProjectCard project={project} index={i} />
+          </ScrollScale>
         ))}
       </div>
     </section>
