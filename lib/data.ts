@@ -8,6 +8,9 @@ export const personal = {
   location: "Alandi, Pune",
   linkedin: "https://linkedin.com/in/vedant-deshpande-a19426221",
   github: "https://github.com/Vedantd2003",
+  // TODO: add the actual resume PDF to public/ before wiring this into a
+  // "Download Resume" button — there is currently no public/ directory and
+  // this path 404s. Not yet referenced by any component.
   resumeUrl: "/Vedant_Deshpande_ATS_1Page.pdf",
 };
 
