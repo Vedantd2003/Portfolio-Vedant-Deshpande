@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { personal, focusAreas, experience, certifications } from "@/lib/data";
 import { MapPin, Mail, Briefcase, Award } from "lucide-react";
+import CharacterReveal from "@/components/CharacterReveal";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -47,9 +48,10 @@ export default function About() {
           className="lg:col-span-3 flex flex-col gap-8"
         >
           <div className="glass rounded-2xl p-8 border border-white/[0.08]">
-            <p className="text-slate-300 text-lg leading-relaxed mb-6">
-              {personal.bio}
-            </p>
+            <CharacterReveal
+              text={personal.bio}
+              className="text-slate-300 text-lg leading-relaxed mb-6"
+            />
             <p className="text-slate-400 leading-relaxed">
               I thrive at the intersection of <span className="text-violet-400 font-medium">AI/LLM engineering</span>,{" "}
               <span className="text-blue-400 font-medium">3D WebGL design</span>, and{" "}
