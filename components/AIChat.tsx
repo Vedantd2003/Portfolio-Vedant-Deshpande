@@ -125,7 +125,7 @@ export default function AIChat() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed bottom-24 right-6 z-50 w-[360px] max-w-[calc(100vw-24px)] rounded-2xl glass-strong border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col"
+            className="fixed bottom-24 right-6 z-50 w-[360px] max-w-[calc(100vw-24px)] rounded-2xl liquid-glass glass-strong shadow-[0_25px_60px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col"
             style={{ maxHeight: "min(500px, 70vh)" }}
           >
             {/* Header */}

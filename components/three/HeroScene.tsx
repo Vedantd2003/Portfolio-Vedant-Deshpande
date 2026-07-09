@@ -350,12 +350,13 @@ function HoloRing() {
 }
 
 // ─── Scene root ──────────────────────────────────────────────────────────────
-export default function HeroScene() {
+export default function HeroScene({ active = true }: { active?: boolean }) {
   return (
     <Canvas
       camera={{ position: [0, 0.2, 8.5], fov: 48 }}
       gl={{ antialias: true, alpha: true }}
       style={{ background: "transparent" }}
+      frameloop={active ? "always" : "never"}
     >
       <ambientLight intensity={0.25} />
       <pointLight position={[4, 6, 4]} color="#8b5cf6" intensity={4} />
