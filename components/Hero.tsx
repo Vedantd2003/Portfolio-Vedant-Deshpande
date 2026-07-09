@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { personal, roles } from "@/lib/data";
 import { ChevronDown, Github, Linkedin, Mail } from "lucide-react";
+import Magnetic from "@/components/Magnetic";
+import ScrambleIn from "@/components/ScrambleIn";
 
 const HeroScene = dynamic(() => import("@/components/three/HeroScene"), {
   ssr: false,
@@ -12,12 +14,19 @@ const HeroScene = dynamic(() => import("@/components/three/HeroScene"), {
 });
 
 function TypewriterText({ words }: { words: string[] }) {
+  const prefersReducedMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
+  // Always start blank — prefersReducedMotion is only known client-side, so
+  // branching this initial state would mismatch the server-rendered HTML.
   const [displayed, setDisplayed] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
+    if (prefersReducedMotion) {
+      setDisplayed(words[0]);
+      return;
+    }
     if (paused) {
       const t = setTimeout(() => setPaused(false), 1500);
       return () => clearTimeout(t);
@@ -45,7 +54,7 @@ function TypewriterText({ words }: { words: string[] }) {
     }, speed);
 
     return () => clearTimeout(t);
-  }, [displayed, deleting, paused, index, words]);
+  }, [displayed, deleting, paused, index, words, prefersReducedMotion]);
 
   return (
     <span className="gradient-text">
@@ -57,6 +66,8 @@ function TypewriterText({ words }: { words: string[] }) {
 
 export default function Hero() {
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const sceneInView = useInView(sceneRef, { margin: "200px" });
 
   const scrollToAbout = () => {
     document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
@@ -107,8 +118,12 @@ export default function Hero() {
               <span className="text-white">Hi, I&apos;m</span>
               <br />
               <span className="gradient-text">
-                {personal.name.split(" ")[0]}{" "}
-                <span className="text-white">{personal.name.split(" ")[1]}</span>
+                <ScrambleIn text={personal.name.split(" ")[0]} delay={200} />{" "}
+                <ScrambleIn
+                  text={personal.name.split(" ")[1]}
+                  delay={350}
+                  className="text-white"
+                />
               </span>
             </h1>
           </motion.div>
@@ -159,18 +174,19 @@ export default function Hero() {
                 { icon: Linkedin, href: personal.linkedin, label: "LinkedIn" },
                 { icon: Mail, href: `mailto:${personal.email}`, label: "Email" },
               ].map(({ icon: Icon, href, label }) => (
-                <motion.a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="p-2.5 rounded-xl glass border border-white/10 text-slate-400 hover:text-violet-400 hover:border-violet-500/40 transition-all duration-300"
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Icon size={18} />
-                </motion.a>
+                <Magnetic key={label}>
+                  <motion.a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="block p-2.5 rounded-xl glass border border-white/10 text-slate-400 hover:text-violet-400 hover:border-violet-500/40 transition-all duration-300"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Icon size={18} />
+                  </motion.a>
+                </Magnetic>
               ))}
             </div>
           </motion.div>
@@ -178,16 +194,19 @@ export default function Hero() {
 
         {/* Right: 3D Canvas */}
         <motion.div
+          ref={sceneRef}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
           className="relative h-[400px] md:h-[500px] lg:h-[600px] w-full"
         >
-          {/* Glow ring behind 3D */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-72 h-72 rounded-full bg-violet-600/20 blur-3xl animate-pulse-glow" />
-          </div>
-          <HeroScene />
+          <Magnetic className="absolute inset-0">
+            {/* Glow ring behind 3D */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-72 h-72 rounded-full bg-violet-600/20 blur-3xl animate-pulse-glow" />
+            </div>
+            <HeroScene active={sceneInView} />
+          </Magnetic>
         </motion.div>
       </div>
 
