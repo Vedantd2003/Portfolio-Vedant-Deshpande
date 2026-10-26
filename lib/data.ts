@@ -22,7 +22,43 @@ export const roles = [
   "3D WebGL Creator",
 ];
 
-export const projects = [
+export interface Project {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  tags: string[];
+  github: string | null;
+  demo: string | null;
+  /** Optional preview image under public/ */
+  image?: string;
+  color: string;
+  glow: string;
+  icon: string;
+  highlights: string[];
+  featured?: boolean;
+}
+
+export const projects: Project[] = [
+  {
+    id: 8,
+    title: "AlphaPulse AI",
+    subtitle: "Evidence-Backed AI Investment Research",
+    description:
+      "AI research platform for US equities: ask a question about a company and it pulls live quotes, Finnhub news and SEC EDGAR filings, then Gemini writes a structured research note. Every claim the model attributes to a source is checked against that source's stored text — anything it can't back up is marked unverified. Includes watchlists, price alerts, a hypothetical Portfolio Lab and an animated dashboard built only from real data.",
+    tags: ["Next.js", "TypeScript", "Express", "MongoDB", "Gemini", "Finnhub", "SEC EDGAR"],
+    github: "https://github.com/Vedantd2003/AI-dashboard-Main/tree/alphapulse-ai",
+    demo: "https://alphapulse-web.onrender.com/",
+    image: "/projects/alphapulse-ai.webp",
+    color: "from-teal-500 to-cyan-600",
+    glow: "rgba(31,158,150,0.4)",
+    icon: "📈",
+    highlights: [
+      "Citations verified against source text",
+      "Background research runs with live progress",
+      "Provider fallback + live self-test",
+    ],
+  },
   {
     id: 7,
     title: "KagazBol",
@@ -60,42 +96,6 @@ export const projects = [
     ],
   },
   {
-    id: 1,
-    title: "Nebula AI Studio",
-    subtitle: "Enterprise AI Content SaaS",
-    description:
-      "Full-stack MERN SaaS with Gemini AI integration supporting 5+ content types — generation, analysis, and summarization — with JWT-secured 3-tier access control and per-user API usage tracking.",
-    tags: ["MERN", "Gemini AI", "JWT", "MongoDB", "Express"],
-    github: "https://github.com/Vedantd2003/Nebula-AI",
-    demo: null,
-    color: "from-violet-600 to-indigo-600",
-    glow: "rgba(139,92,246,0.4)",
-    icon: "🌌",
-    highlights: [
-      "5+ AI content types",
-      "3-tier JWT access control",
-      "Per-user API usage tracking",
-    ],
-  },
-  {
-    id: 2,
-    title: "BrandGenome AI",
-    subtitle: "Branding SaaS Platform",
-    description:
-      "GPT-4-powered SaaS generating 10+ brand identity attributes with a stunning 3D DNA Helix visualization built with React Three Fiber delivering 60fps WebGL performance.",
-    tags: ["MERN", "OpenAI GPT-4", "Three.js", "React Three Fiber"],
-    github: "https://github.com/Vedantd2003/brandgenome-ai",
-    demo: null,
-    color: "from-blue-600 to-cyan-600",
-    glow: "rgba(59,130,246,0.4)",
-    icon: "🧬",
-    highlights: [
-      "10+ brand identity attributes",
-      "3D DNA Helix visualization",
-      "60fps WebGL performance",
-    ],
-  },
-  {
     id: 3,
     title: "AI Resume Copilot",
     subtitle: "Interview & Job Prep Platform",
@@ -113,24 +113,6 @@ export const projects = [
       "Voice synthesis + 3D interview room",
     ],
     featured: true,
-  },
-  {
-    id: 4,
-    title: "AIAssis",
-    subtitle: "AI Mock Interview Platform",
-    description:
-      "Voice-first interview simulator built with Next.js and Vapi AI. Features Zod schema validation and async state management achieving 99%+ transcript accuracy.",
-    tags: ["Next.js", "Vapi AI", "Zod", "TypeScript"],
-    github: "https://github.com/Vedantd2003/AI-Interview-Assistant",
-    demo: null,
-    color: "from-orange-600 to-red-600",
-    glow: "rgba(249,115,22,0.4)",
-    icon: "🎙️",
-    highlights: [
-      "99%+ transcript accuracy",
-      "Voice-first UI",
-      "Zod schema validation",
-    ],
   },
   {
     id: 5,

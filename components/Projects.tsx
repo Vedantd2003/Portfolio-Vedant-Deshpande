@@ -9,9 +9,10 @@ import {
   useReducedMotion,
 } from "framer-motion";
 import { projects } from "@/lib/data";
-import { Github, ExternalLink } from "lucide-react";
+import Image from "next/image";
+import { Github, ExternalLink, ArrowUpRight } from "lucide-react";
 
-function ScrollScale({ children }: { children: React.ReactNode }) {
+function ScrollScale({ children, className }: { children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
   // Gate behind a mount flag: prefersReducedMotion is only knowable
@@ -28,7 +29,7 @@ function ScrollScale({ children }: { children: React.ReactNode }) {
   const scale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [0.94, 1]);
 
   return (
-    <motion.div ref={ref} style={{ scale }}>
+    <motion.div ref={ref} style={{ scale }} className={className}>
       {children}
     </motion.div>
   );
@@ -77,6 +78,27 @@ function ProjectCard({
           style={{ background: `radial-gradient(ellipse at 50% 0%, ${project.glow} 0%, transparent 60%)` }}
         />
 
+        {/* Preview */}
+        {project.image && (
+          <a
+            href={project.demo ?? project.github ?? "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Open ${project.title} live demo`}
+            className="relative z-10 -mx-2 -mt-2 block overflow-hidden rounded-xl border border-white/[0.08] bg-black/20"
+          >
+            <Image
+              src={project.image}
+              alt={`${project.title} dashboard preview (sample data)`}
+              width={1200}
+              height={563}
+              sizes="(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw"
+              className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            />
+            <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#030712]/70 via-transparent to-transparent" />
+          </a>
+        )}
+
         {/* Header */}
         <div className="flex items-start justify-between relative z-10">
           <div className="flex items-center gap-3">
@@ -100,6 +122,7 @@ function ProjectCard({
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`${project.title} source code on GitHub`}
                 className="p-2 rounded-lg text-slate-500 hover:text-white hover:bg-white/10 transition-all"
                 onClick={(e) => e.stopPropagation()}
               >
@@ -111,6 +134,7 @@ function ProjectCard({
                 href={project.demo}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`${project.title} live demo`}
                 className="p-2 rounded-lg text-slate-500 hover:text-violet-400 hover:bg-violet-500/10 transition-all"
                 onClick={(e) => e.stopPropagation()}
               >
@@ -148,6 +172,18 @@ function ProjectCard({
             </span>
           ))}
         </div>
+
+        {/* Primary call to action for cards with a preview */}
+        {project.image && project.demo && (
+          <a
+            href={project.demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`relative z-10 inline-flex w-fit items-center gap-1.5 rounded-xl bg-gradient-to-r ${project.color} px-4 py-2 text-sm font-semibold text-white shadow-lg transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white`}
+          >
+            Live demo <ArrowUpRight size={15} aria-hidden />
+          </a>
+        )}
       </motion.div>
     </motion.div>
   );
@@ -181,7 +217,7 @@ export default function Projects() {
       {/* Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map((project, i) => (
-          <ScrollScale key={project.id}>
+          <ScrollScale key={project.id} className={project.image ? "md:col-span-2" : undefined}>
             <ProjectCard project={project} index={i} />
           </ScrollScale>
         ))}

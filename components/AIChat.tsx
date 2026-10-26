@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Bot, User, Loader2 } from "lucide-react";
+import { MessageCircle, X, Send, Bot, User, Loader2, RotateCcw, RefreshCw } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -11,10 +11,12 @@ interface Message {
 
 const STARTER_MESSAGES = [
   "What projects has Vedant built?",
+  "Tell me about AlphaPulse AI",
   "What AI/LLM skills does Vedant have?",
   "Is Vedant open to job opportunities?",
-  "Tell me about the AI Resume Copilot",
 ];
+
+const MAX_CHARS = 1000;
 
 const WELCOME =
   "Hey there! 👋 I'm Vedant's AI assistant. Ask me anything about his work, skills, projects, or availability for roles!";
@@ -24,7 +26,7 @@ export default function AIChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<{ text: string; retryable: boolean } | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -35,46 +37,55 @@ export default function AIChat() {
   }, [open, messages.length]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, loading]);
+    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [messages, loading, error]);
 
   useEffect(() => {
     if (open) inputRef.current?.focus();
   }, [open]);
 
-  const send = async (text: string) => {
-    if (!text.trim() || loading) return;
-    const userMsg: Message = { role: "user", content: text.trim() };
-    const next = [...messages, userMsg];
-    setMessages(next);
-    setInput("");
-    setError("");
+  /** Sends the conversation (without the local welcome line) and appends the reply. */
+  const request = async (history: Message[]) => {
+    setError(null);
     setLoading(true);
-
     try {
       const res = await fetch("/api/ai-chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: next.map((m) => ({ role: m.role, content: m.content })),
-        }),
+        body: JSON.stringify({ messages: history.filter((m, i) => !(i === 0 && m.content === WELCOME)) }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Request failed");
-      setMessages([...next, { role: "assistant", content: data.reply }]);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
-      setMessages([
-        ...next,
-        {
-          role: "assistant",
-          content:
-            "Sorry, I'm having trouble right now. Feel free to email Vedant directly at vdeshpande674@gmail.com!",
-        },
-      ]);
+      const data = (await res.json().catch(() => ({}))) as { reply?: string; error?: string; retryable?: boolean };
+      if (!res.ok || !data.reply) {
+        setError({ text: data.error || "Something went wrong. Please try again.", retryable: data.retryable ?? res.status >= 500 });
+        return;
+      }
+      setMessages([...history, { role: "assistant", content: data.reply }]);
+    } catch {
+      setError({ text: "Couldn't reach the assistant. Check your connection and try again.", retryable: true });
     } finally {
       setLoading(false);
     }
+  };
+
+  const send = (text: string) => {
+    const t = text.trim().slice(0, MAX_CHARS);
+    if (!t || loading) return;
+    const next = [...messages, { role: "user" as const, content: t }];
+    setMessages(next);
+    setInput("");
+    void request(next);
+  };
+
+  const retry = () => {
+    if (!loading && messages.at(-1)?.role === "user") void request(messages);
+  };
+
+  const reset = () => {
+    if (loading) return;
+    setError(null);
+    setInput("");
+    setMessages([{ role: "assistant", content: WELCOME }]);
+    inputRef.current?.focus();
   };
 
   const handleKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -93,7 +104,8 @@ export default function AIChat() {
         whileHover={{ scale: 1.08, boxShadow: "0 0 40px rgba(139,92,246,0.7)" }}
         whileTap={{ scale: 0.95 }}
         animate={{ rotate: open ? 180 : 0 }}
-        aria-label="AI Chat"
+        aria-label={open ? "Close AI chat" : "Chat with AI about Vedant"}
+        aria-expanded={open}
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
@@ -125,7 +137,10 @@ export default function AIChat() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed bottom-24 right-6 z-50 w-[360px] max-w-[calc(100vw-24px)] rounded-2xl liquid-glass glass-strong shadow-[0_25px_60px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col"
+            role="dialog"
+            aria-labelledby="ai-chat-title"
+            // !fixed: the .liquid-glass rule sets position: relative, which otherwise pins the panel to the page bottom
+            className="!fixed bottom-24 right-3 sm:right-6 z-50 w-[360px] max-w-[calc(100vw-24px)] rounded-2xl liquid-glass glass-strong shadow-[0_25px_60px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col"
             style={{ maxHeight: "min(500px, 70vh)" }}
           >
             {/* Header */}
@@ -133,17 +148,29 @@ export default function AIChat() {
               <div className="w-8 h-8 rounded-xl bg-white/15 flex items-center justify-center">
                 <Bot size={16} className="text-white" />
               </div>
-              <div>
-                <p className="text-white font-semibold text-sm">Ask about Vedant</p>
+              <div className="flex-1 min-w-0">
+                <p id="ai-chat-title" className="text-white font-semibold text-sm">Ask about Vedant</p>
                 <div className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                  <p className="text-white/70 text-xs">AI-powered · Instant replies</p>
+                  <p className="text-white/70 text-xs">AI assistant · Answers from his portfolio</p>
                 </div>
               </div>
+              {messages.length > 1 && (
+                <button
+                  type="button"
+                  onClick={reset}
+                  disabled={loading}
+                  className="p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/15 disabled:opacity-40 transition-colors"
+                  aria-label="Start a new conversation"
+                  title="New conversation"
+                >
+                  <RotateCcw size={15} />
+                </button>
+              )}
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3 scroll-smooth">
+            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3 scroll-smooth" aria-live="polite">
               {/* Starter chips (only when just welcome) */}
               {messages.length <= 1 && (
                 <motion.div
@@ -190,7 +217,7 @@ export default function AIChat() {
 
                   {/* Bubble */}
                   <div
-                    className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                    className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap break-words ${
                       msg.role === "user"
                         ? "bg-gradient-to-br from-violet-600/80 to-blue-600/80 text-white rounded-tr-sm"
                         : "bg-white/[0.06] border border-white/[0.08] text-slate-200 rounded-tl-sm"
@@ -228,6 +255,22 @@ export default function AIChat() {
                 </motion.div>
               )}
 
+              {/* Error with retry */}
+              {error && !loading && (
+                <div role="alert" className="rounded-xl border border-red-400/30 bg-red-500/10 px-3.5 py-2.5 text-sm text-red-200">
+                  <p>{error.text}</p>
+                  {error.retryable && messages.at(-1)?.role === "user" && (
+                    <button
+                      type="button"
+                      onClick={retry}
+                      className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-white/10 px-2.5 py-1 text-xs font-medium text-white hover:bg-white/20 transition-colors"
+                    >
+                      <RefreshCw size={12} aria-hidden /> Try again
+                    </button>
+                  )}
+                </div>
+              )}
+
               <div ref={bottomRef} />
             </div>
 
@@ -237,7 +280,9 @@ export default function AIChat() {
                 <textarea
                   ref={inputRef}
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  onChange={(e) => setInput(e.target.value.slice(0, MAX_CHARS))}
+                  maxLength={MAX_CHARS}
+                  aria-label="Message the portfolio assistant"
                   onKeyDown={handleKey}
                   rows={1}
                   placeholder="Ask anything about Vedant…"
@@ -245,6 +290,8 @@ export default function AIChat() {
                   style={{ scrollbarWidth: "none" }}
                 />
                 <motion.button
+                  type="button"
+                  aria-label="Send message"
                   onClick={() => send(input)}
                   disabled={!input.trim() || loading}
                   className="flex-shrink-0 w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 flex items-center justify-center text-white disabled:opacity-40 disabled:cursor-not-allowed"
@@ -259,7 +306,7 @@ export default function AIChat() {
                 </motion.button>
               </div>
               <p className="text-slate-600 text-[10px] text-center mt-2">
-                Powered by OpenRouter AI · Press Enter to send
+                Powered by Google Gemini · Enter to send, Shift+Enter for a new line
               </p>
             </div>
           </motion.div>

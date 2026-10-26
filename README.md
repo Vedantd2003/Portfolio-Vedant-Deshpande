@@ -40,7 +40,7 @@ A static resume doesn't show how I build — interactive, AI-integrated, product
 ## Features
 
 - **3D animated hero** built with Three.js / React Three Fiber
-- **AI chat widget** for visitor Q&A about the portfolio (`/api/ai-chat`)
+- **AI chat widget** for visitor Q&A about the portfolio (`/api/ai-chat`, Google Gemini, key kept server-side in `GEMINI_API_KEY`)
 - **Project showcase** highlighting shipped work, including KagazBol, NeuralVault, and other AI/full-stack builds
 - **Skills section** broken down by category (Backend & Database, AI & LLM, Security & DevOps, etc.)
 - **Contact form** with server-side email delivery via Nodemailer
