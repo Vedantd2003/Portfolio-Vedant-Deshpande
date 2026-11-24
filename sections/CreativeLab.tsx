@@ -49,7 +49,7 @@ export function CreativeLab() {
             Short films,<br /><span className="serif-em text-accent">made with</span><br />code + AI.
           </h2>
           <p className="mt-8 max-w-sm text-paper/70">
-            Narrative reels on mythology, history and science — scripted, voiced with AI, animated in code and cut for the vertical feed.
+            Mythology, folk art, classical dance and comedy — scripted, voiced with AI, animated in code and cut for the vertical feed.
           </p>
           <p className="mt-6 hidden font-mono text-[11px] uppercase tracking-[0.18em] text-muted md:block">Scroll →</p>
         </header>
