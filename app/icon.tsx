@@ -6,24 +6,10 @@ export const contentType = "image/png";
 export default function Icon() {
   return new ImageResponse(
     (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "linear-gradient(135deg, #8b5cf6, #3b82f6)",
-          borderRadius: "8px",
-          color: "white",
-          fontSize: "18px",
-          fontWeight: "bold",
-          fontFamily: "sans-serif",
-        }}
-      >
+      <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "#0c0a09", color: "#ff4d1c", fontSize: 22, fontStyle: "italic", fontFamily: "serif", borderRadius: 6 }}>
         V
       </div>
     ),
-    { ...size }
+    { ...size },
   );
 }

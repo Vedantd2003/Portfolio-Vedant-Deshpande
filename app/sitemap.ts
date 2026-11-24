@@ -1,12 +1,6 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/data/profile";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: "https://portfolio-vedant-deshpande.onrender.com/",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-  ];
+  return [{ url: `${SITE_URL}/`, lastModified: new Date(), changeFrequency: "monthly", priority: 1 }];
 }
