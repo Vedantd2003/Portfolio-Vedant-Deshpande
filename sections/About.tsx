@@ -16,7 +16,7 @@ export function About() {
   return (
     <section ref={root} id="about" data-section="About" className="relative z-10 bg-ink py-24 md:py-40">
       <div className="container-x">
-        <p className="eyebrow mb-10">(07) About</p>
+        <p className="eyebrow mb-10">(08) About</p>
         <h2 className="sr-only">About Vedant</h2>
         <SplitText as="p" className="a-statement display max-w-[15ch] text-[11vw] md:text-[6.4vw]" text={profile.statement} />
 
@@ -33,7 +33,7 @@ export function About() {
         <dl className="mt-16 grid gap-10 text-sm md:mt-24 md:grid-cols-3">
           <div>
             <dt className="eyebrow mb-3">Education</dt>
-            <dd>{profile.education.degree}<br /><span className="text-paper/60">{profile.education.school} — {profile.education.year}</span></dd>
+            <dd>{profile.education.degree}<br /><span className="text-paper/60">{profile.education.school} — {profile.education.period}</span><br /><span className="text-paper/60">{profile.education.coursework}</span></dd>
           </div>
           <div>
             <dt className="eyebrow mb-3">Virtual experience</dt>

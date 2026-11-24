@@ -45,7 +45,7 @@ export function Manifesto() {
         <div className="row-b -mt-[2vw]"><Row serif /></div>
       </div>
       <div className="container-x mt-20 grid gap-8 md:mt-32 md:grid-cols-12">
-        <p className="eyebrow md:col-span-3">(01) Positioning</p>
+        <p className="eyebrow md:col-span-3">(02) Positioning</p>
         <SplitText
           as="p"
           className="m-statement text-3xl font-medium leading-[1.12] tracking-tight md:col-span-9 md:text-[3.6vw]"

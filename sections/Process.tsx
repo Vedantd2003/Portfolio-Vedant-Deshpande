@@ -23,7 +23,7 @@ export function Process() {
   return (
     <section ref={root} data-section="Process" className="relative z-10 flex min-h-[100svh] flex-col justify-center bg-ink py-24">
       <div className="container-x">
-        <p className="eyebrow mb-4">(06) Process</p>
+        <p className="eyebrow mb-4">(07) Process</p>
         <h2 className="display text-[13vw] md:text-[6vw]">Idea → <span className="serif-em text-accent">shipped.</span></h2>
         <div className="relative mt-16 md:mt-24">
           <div className="absolute left-0 right-0 top-0 hidden h-px bg-line md:block" />

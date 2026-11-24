@@ -132,7 +132,7 @@ export function Hero() {
 
         <div className="mt-auto grid gap-6 md:max-w-[44vw]">
           <p className="hero-fade max-w-md text-[15px] leading-relaxed text-paper/75 md:text-base">
-            Recent B.Tech graduate. I build full-stack AI products, and I make AI-generated films and reels.
+            2025 B.Tech graduate, immediate joiner. I build full-stack AI products, and I make AI-generated films and reels.
             <span className="mt-2 block font-mono text-[11px] uppercase tracking-[0.18em] text-accent" aria-live="polite">
               {modes[mode].label} mode — {modes[mode].line}
             </span>

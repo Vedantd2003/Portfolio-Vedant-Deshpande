@@ -16,6 +16,7 @@ const LINKS = [
 export function Nav() {
   const bar = useRef<HTMLDivElement>(null);
   const [section, setSection] = useState({ n: "01", name: "Intro" });
+  const [total, setTotal] = useState("10");
   const [menu, setMenu] = useState(false);
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export function Nav() {
       onUpdate: (s) => gsap.set(bar.current, { scaleX: s.progress }),
     });
     const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-section]"));
+    setTotal(String(sections.length).padStart(2, "0"));
     const triggers = sections.map((el, i) =>
       ScrollTrigger.create({
         trigger: el,
@@ -37,13 +39,13 @@ export function Nav() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[75] mix-blend-normal">
+    <header className="fixed inset-x-0 top-0 z-[75] bg-gradient-to-b from-ink/90 via-ink/50 to-transparent">
       <div className="container-x flex items-center justify-between gap-4 py-4 md:py-6">
         <a href="#top" className="font-sans text-sm font-semibold uppercase tracking-tight" aria-label="Vedant Deshpande — back to top">
           Vedant <span className="serif-em text-accent"><span className="sm:hidden">D.</span><span className="hidden sm:inline">Deshpande</span></span>
         </a>
         <p className="hidden font-mono text-[11px] uppercase tracking-[0.22em] text-muted lg:block" aria-live="off">
-          <span className="text-paper">{section.n}</span> / 09 — {section.name}
+          <span className="text-paper">{section.n}</span> / {total} — {section.name}
         </p>
         <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
           {LINKS.map((l) => (
@@ -51,6 +53,7 @@ export function Nav() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
+          <a href="/Vedant_Deshpande_Resume.pdf" target="_blank" rel="noopener noreferrer" data-cursor="link" className="link-u hidden font-mono text-[11px] uppercase tracking-[0.18em] text-accent lg:inline-block">Résumé ↗</a>
           <ModeToggle />
           <button type="button" className="font-mono text-[11px] uppercase tracking-[0.18em] md:hidden" aria-expanded={menu} aria-controls="mobile-menu" onClick={() => setMenu((m) => !m)}>
             {menu ? "Close" : "Menu"}

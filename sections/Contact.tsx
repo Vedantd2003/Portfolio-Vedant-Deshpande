@@ -29,6 +29,7 @@ export function Contact() {
   const links = [
     { label: "LinkedIn", href: profile.linkedin },
     { label: "GitHub", href: profile.github },
+    { label: "Résumé", href: profile.resume },
   ];
 
   return (
@@ -39,7 +40,7 @@ export function Contact() {
       </div>
 
       <div className="container-x relative flex flex-1 flex-col justify-center py-28">
-        <p className="eyebrow mb-8 !text-paper/80">(09) Contact — open to full-time roles</p>
+        <p className="eyebrow mb-8 !text-paper/80">(10) Contact — open to full-time roles · immediate joiner</p>
         <h2 className="display text-[13vw] md:text-[9vw]">
           <span className="block"><span className="c-line mask"><span>Let&apos;s build</span></span></span>
           <span className="block"><span className="c-line mask"><span>something</span></span></span>

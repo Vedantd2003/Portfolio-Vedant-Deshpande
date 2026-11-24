@@ -43,7 +43,7 @@ export function Ecosystem() {
   return (
     <section ref={root} data-section="Stack" className="relative z-10 bg-ink py-24 md:py-36">
       <div className="container-x">
-        <p className="eyebrow mb-4">(08) Stack</p>
+        <p className="eyebrow mb-4">(09) Stack</p>
         <h2 className="display text-[13vw] md:text-[6vw]">One <span className="serif-em text-accent">ecosystem.</span></h2>
         <p className="mt-6 max-w-md text-paper/70">Three clusters that feed each other. Hover a cluster to isolate it.</p>
 

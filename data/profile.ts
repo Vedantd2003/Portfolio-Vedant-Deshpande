@@ -9,10 +9,13 @@ export const profile = {
   email: "vdeshpande674@gmail.com",
   linkedin: "https://www.linkedin.com/in/vedant-deshpande-a19426221/",
   github: "https://github.com/Vedantd2003",
+  resume: "/Vedant_Deshpande_Resume.pdf",
   education: {
     degree: "B.Tech, Electronics Engineering",
     school: "MIT Academy of Engineering, Pune",
     year: "2025",
+    period: "Jul 2021 – Jul 2025",
+    coursework: "CS-equivalent coursework: DSA, OOP, DBMS & SQL, Operating Systems, Computer Networks",
   },
   statement: "I build software that thinks, interfaces that move, and visuals that tell stories.",
 } as const;
@@ -35,8 +38,8 @@ export type Mode = keyof typeof modes;
 
 export const background = [
   { title: "Electronics Engineering", text: "Signals, systems and hardware thinking from a B.Tech at MIT Academy of Engineering." },
-  { title: "Full-Stack Development", text: "Next.js, Node.js and Python products, deployed and running in production." },
-  { title: "AI / GenAI", text: "LLMs, RAG, voice agents and Indian-language AI wired into real interfaces." },
+  { title: "Full-Stack Development", text: "10+ shipped projects on GitHub — Next.js, Node.js, Python and FastAPI, deployed and running." },
+  { title: "AI / GenAI", text: "OpenAI, Gemini and Anthropic APIs, RAG with vector search, voice agents and Indian-language AI." },
   { title: "Creative Technology", text: "Narrative reels animated in code, with AI voice, motion and edit." },
 ];
 

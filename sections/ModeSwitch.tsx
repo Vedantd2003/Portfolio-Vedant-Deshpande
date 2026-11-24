@@ -59,7 +59,7 @@ export function ModeSwitch() {
     <section ref={root} data-section="Two modes" className="relative z-10 border-y border-line bg-ink">
       <div className="container-x flex flex-col items-start justify-between gap-6 py-10 md:flex-row md:items-end md:py-14">
         <div>
-          <p className="eyebrow mb-4">(02) Two modes, one practice</p>
+          <p className="eyebrow mb-4">(03) Two modes, one practice</p>
           <h2 className="display text-5xl md:text-[5.4vw]">Pick a <span className="serif-em text-accent">lens.</span></h2>
         </div>
         <div className="flex flex-col items-start gap-3 md:items-end">

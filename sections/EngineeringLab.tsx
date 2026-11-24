@@ -89,7 +89,7 @@ export function EngineeringLab() {
     <section ref={root} id="engineering" data-section="Engineering" className="relative z-10 bg-ink pt-24 md:pt-40">
       <div className="container-x">
         <div className="eng-head mb-16 grid gap-6 md:mb-24 md:grid-cols-12">
-          <p className="eyebrow md:col-span-3">(05) Engineering Lab</p>
+          <p className="eyebrow md:col-span-3">(06) Engineering Lab</p>
           <h2 className="display text-[15vw] md:col-span-9 md:text-[8vw]">
             <span className="mask"><span className="w">Built</span></span> <span className="mask"><span className="w">with</span></span><br />
             <span className="mask"><span className="w serif-em em-creative">code</span></span> <span className="mask"><span className="w em-dev">+ AI.</span></span>

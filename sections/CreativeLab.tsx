@@ -44,7 +44,7 @@ export function CreativeLab() {
       <div className="lab-track flex flex-col gap-24 py-24 md:h-[100svh] md:w-max md:flex-row md:items-center md:gap-[8vw] md:py-0 md:pl-[5vw] md:pr-[10vw]">
         {/* Intro panel */}
         <header className="container-x md:w-[38vw] md:px-0">
-          <p className="eyebrow mb-6">(03) AI Creative Lab</p>
+          <p className="eyebrow mb-6">(04) AI Creative Lab</p>
           <h2 className="display text-[16vw] md:text-[7.5vw]">
             Short films,<br /><span className="serif-em text-accent">made with</span><br />code + AI.
           </h2>

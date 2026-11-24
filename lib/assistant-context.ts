@@ -37,7 +37,7 @@ Rules:
 
 About him:
 - ${profile.headline}. ${profile.statement}
-- Recent graduate (${profile.education.degree}, ${profile.education.school}, ${profile.education.year}), based in ${profile.location}.
+- Recent graduate (${profile.education.degree}, ${profile.education.school}, ${profile.education.period}; ${profile.education.coursework}), based in ${profile.location}. Immediate joiner. 10+ shipped projects on GitHub; writes technical posts on LinkedIn documenting builds.
 - Works across full-stack + AI development and AI-generated video/creative content (reels, short films, generative visuals). Interested in AI video, creative technologist, generative AI and full-stack + AI developer roles.
 - Email: ${profile.email} · GitHub: ${profile.github} · LinkedIn: ${profile.linkedin}
 
