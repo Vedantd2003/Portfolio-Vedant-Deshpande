@@ -1,56 +1,28 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, type ReactNode } from "react";
+import { gsap, isTouch, prefersReducedMotion } from "@/animations/gsap";
 
-const STRENGTH = 3;
-const ACTIVATION_PADDING = 150;
-
-export default function Magnetic({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const prefersReducedMotion = useReducedMotion();
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (prefersReducedMotion || !ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const distX = e.clientX - centerX;
-    const distY = e.clientY - centerY;
-    const withinX = Math.abs(distX) < rect.width / 2 + ACTIVATION_PADDING;
-    const withinY = Math.abs(distY) < rect.height / 2 + ACTIVATION_PADDING;
-
-    if (withinX && withinY) {
-      setPos({ x: distX / STRENGTH, y: distY / STRENGTH });
-    } else {
-      setPos({ x: 0, y: 0 });
-    }
-  };
-
-  const reset = () => setPos({ x: 0, y: 0 });
-
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={reset}
-      animate={{ x: pos.x, y: pos.y }}
-      transition={
-        pos.x === 0 && pos.y === 0
-          ? { type: "tween", duration: 0.6, ease: "easeIn" }
-          : { type: "tween", duration: 0.3, ease: "easeOut" }
-      }
-      style={{ willChange: "transform" }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
+/** Pulls its child toward the pointer. No-op on touch / reduced motion. */
+export function Magnetic({ children, strength = 0.35 }: { children: ReactNode; strength?: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || isTouch() || prefersReducedMotion()) return;
+    const x = gsap.quickTo(el, "x", { duration: 0.6, ease: "elastic.out(1, 0.4)" });
+    const y = gsap.quickTo(el, "y", { duration: 0.6, ease: "elastic.out(1, 0.4)" });
+    const move = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      x((e.clientX - (r.left + r.width / 2)) * strength);
+      y((e.clientY - (r.top + r.height / 2)) * strength);
+    };
+    const reset = () => { x(0); y(0); };
+    el.addEventListener("pointermove", move);
+    el.addEventListener("pointerleave", reset);
+    return () => {
+      el.removeEventListener("pointermove", move);
+      el.removeEventListener("pointerleave", reset);
+    };
+  }, [strength]);
+  return <span ref={ref} className="inline-block">{children}</span>;
 }
