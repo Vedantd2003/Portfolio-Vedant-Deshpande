@@ -43,7 +43,7 @@ export const projects: Project[] = [
     aspect: "9:16",
     featured: true,
     video: "",
-    poster: "",
+    poster: "/media/tilottama.webp",
   },
   {
     id: "nataraja",
@@ -57,7 +57,7 @@ export const projects: Project[] = [
     aspect: "9:16",
     featured: true,
     video: "",
-    poster: "",
+    poster: "/media/nataraja.webp",
   },
   {
     id: "teen-tigada",
@@ -71,7 +71,7 @@ export const projects: Project[] = [
     aspect: "9:16",
     featured: true,
     video: "",
-    poster: "",
+    poster: "/media/teen-tigada.webp",
   },
   {
     id: "gargi",
@@ -84,7 +84,7 @@ export const projects: Project[] = [
     process: ["Script written from the source text (Brihadaranyaka Upanishad 3.6, 3.8)", "Hindi narration and matching English subtitles", "Court, characters and kinetic type animated in code", "1:46 vertical reel, mixed to -14 LUFS"],
     aspect: "9:16",
     video: "",
-    poster: "",
+    poster: "/media/gargi.webp",
   },
   {
     id: "kathakali",
@@ -97,7 +97,7 @@ export const projects: Project[] = [
     process: ["Research on vesham types (Pacha, Kathi, Thadi, Kari) and the chutti", "Hindi narration with English subtitles", "Face transformations and eye close-ups animated in code", "1:56 vertical reel with a drum-driven score"],
     aspect: "9:16",
     video: "",
-    poster: "",
+    poster: "/media/kathakali.webp",
   },
 
   /* ───────────── ENGINEERING LAB ───────────── */

@@ -38,7 +38,7 @@ export function Showreel() {
         </div>
       </div>
 
-      <ul ref={strip} className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 [scrollbar-width:none] md:px-10 [&::-webkit-scrollbar]:hidden">
+      <ul ref={strip} className="flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-4 md:scroll-px-10 [scrollbar-width:none] md:px-10 [&::-webkit-scrollbar]:hidden">
         {creativeProjects.map((p, i) => (
           <li key={p.id} className="reel-tile w-[68vw] shrink-0 snap-start sm:w-[42vw] md:w-[21vw] md:min-w-[260px]">
             <button type="button" onClick={() => open(p.id)} data-cursor="play" className="group block w-full text-left" aria-label={`Play ${p.title}`}>
